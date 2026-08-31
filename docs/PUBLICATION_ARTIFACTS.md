@@ -18,6 +18,7 @@ source and validated without private services or production credentials.
 | Evaluator checklist | Supported environment, validation, smoke tests, and cautions | `STARTUP.md` |
 | Project landing page | Public product summary and synthetic lifecycle status | `site/index.html` |
 | Architecture explorer | Interactive lifecycle, governance, persistence, and trust-boundary walkthrough | `site/architecture.html` |
+| AWS services reference architecture | Clearly labeled target deployment mapped to production-readiness gaps, with editable source and PNG | `site/assets/aws-services-architecture.drawio`, `site/assets/aws-services-architecture.png` |
 | Browser publication check | Exact Pages-base routes, local assets, interactions, mobile layout, and prohibited-network checks in Chrome | `tools/browser_check.py` |
 | Requirements baseline | Pinned upstream source, methodology requirements, implementation coverage, and deviations | `docs/V2_REQUIREMENTS.md` |
 | Provenance record | Boundary between derived MIT-0 catalog data and original Apache-2.0 implementation | `docs/CLEAN_ROOM_PROVENANCE.md`, `THIRD_PARTY_NOTICES.md` |
@@ -38,6 +39,9 @@ The architecture has several representations for different consumers:
 - `site/assets/architecture.svg` is the accessible vector used on the landing
   page.
 - `site/assets/architecture.dot` is the compact logical graph source.
+- `site/assets/aws-services-architecture.drawio` is the editable target AWS
+  services reference.
+- `site/assets/aws-services-architecture.png` is its customer-facing render.
 
 The canonical visual identity files are:
 
@@ -54,6 +58,7 @@ The source distribution must contain:
 - the landing page and architecture explorer;
 - both site JavaScript files and the shared stylesheet;
 - the editable draw.io source and PNG render;
+- the separate target AWS services draw.io source and PNG render;
 - the committed `uv.lock` and real-browser publication check;
 - this publication inventory and the long-form architecture reference;
 - the v2 requirements baseline and attributed catalog resources;
@@ -90,9 +95,9 @@ uv run --locked python tools/browser_check.py \
 
 AI-DLC v2 Engine version 0.1 does not include container images, cloud deployment
 templates, production evidence bundles, service dashboards, or signed runtime
-artifacts. The implementation is a local evaluation engine with no remote API
-or external delivery integration, so publishing those artifacts would imply a
-deployment surface that does not exist.
+artifacts. The AWS services diagram is explicitly target-state planning
+material; it does not imply that its services, controls, or deployment path
+exist.
 
 Runtime dependencies are empty. `uv.lock` is the authoritative development,
 CI, Pages, and release environment. `requirements-build.lock` remains as a

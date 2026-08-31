@@ -186,3 +186,38 @@ The runtime has no third-party dependencies. `fcntl` locking limits the current
 implementation to POSIX hosts. Every read verifies the complete audit chain,
 so operation cost grows linearly with event count. That is intentional for an
 inspectable alpha, not a distributed-scale design.
+
+## Target AWS services reference architecture
+
+![AI-DLC v2 Engine target AWS services architecture](../site/assets/aws-services-architecture.png)
+
+The editable source is
+[`site/assets/aws-services-architecture.drawio`](../site/assets/aws-services-architecture.drawio).
+This is a target-state design derived from the
+[production-readiness ledger](PRODUCTION_READINESS.md), not infrastructure
+implemented or deployed by this repository. Version 0.1.0 remains the local
+CLI and filesystem architecture described above.
+
+| Documented gap | Target mapping | Boundary |
+| --- | --- | --- |
+| Authenticated human and workload identity | Amazon Cognito with scoped tokens; Amazon API Gateway JWT authorization and throttling | The service must still enforce workflow roles, requester separation, and human-only operations |
+| Remote, multi-user control plane | Amazon ECS on AWS Fargate behind a private Application Load Balancer and API Gateway VPC Link | The container carries the current deterministic core plus a future API and persistence adapter |
+| Distributed ordering and atomic persistence | Amazon DynamoDB transactions and conditional revision writes | The application continues to validate state, policy, event order, state digests, and the hash chain |
+| Sandboxed worker and sensor execution | Amazon SQS with a dead-letter queue and separate Fargate workers | Workers may return evidence or reviewer verdicts but cannot approve, merge, deploy, release, or operate production |
+| Trusted evidence, external checkpoints, and event signatures | Versioned Amazon S3 Object Lock storage plus AWS KMS signing and encryption | Artifact bytes remain distinct from workflow metadata; retention and key policy require a separate security design |
+| Credential handling | AWS Secrets Manager runtime references | Workflow content and ordinary state do not belong in the secret store |
+| Operational visibility | Amazon CloudWatch logs, metrics, alarms, AWS X-Ray traces, and AWS CloudTrail for AWS API activity | Logs and traces require redaction before any non-synthetic workload |
+| Reproducible container delivery | GitHub Actions with short-lived AWS OIDC credentials and immutable Amazon ECR image digests | Publishing this repository or its Pages site does not create or update AWS resources |
+| Optional model and reviewer execution | Amazon Bedrock called only from the sandboxed worker role | Model output remains advisory and cannot satisfy a human gate |
+
+Amazon DynamoDB is the reference primary store because the current model is a
+versioned workflow document plus ordered, key-addressable audit events.
+Transactions and conditional writes provide a direct replacement for the
+single-host lock and pending file pair. If later requirements prioritize
+relational joins or ad hoc cross-workflow reporting over those access
+patterns, this choice must be revisited through an architecture decision
+record.
+
+The diagram intentionally omits account IDs, ARNs, endpoints, resource names,
+and capacity claims. It is not production evidence, a cost estimate, or
+authorization to deploy.

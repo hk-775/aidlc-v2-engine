@@ -39,6 +39,24 @@ boundary.
 [Open the interactive architecture explorer](site/architecture.html) or
 [edit the draw.io source](site/assets/architecture.drawio).
 
+### Target AWS services architecture
+
+![AI-DLC v2 Engine target AWS services architecture](site/assets/aws-services-architecture.png)
+
+The separate AWS diagram is a **target reference**, not a deployed topology.
+It maps the production-readiness gaps to a possible authenticated service:
+Amazon Cognito and Amazon API Gateway at the boundary, Amazon ECS on AWS
+Fargate for the control service and sandboxed workers, Amazon SQS for approved
+work dispatch, Amazon DynamoDB for versioned workflow state and ordered audit
+events, Amazon S3 Object Lock and AWS KMS for evidence checkpoints, and
+Amazon CloudWatch, AWS X-Ray, and AWS CloudTrail for operations. Amazon
+Bedrock remains an optional worker integration and never receives human gate
+authority.
+
+Version 0.1.0 includes no AWS infrastructure as code and creates no cloud
+resources. [Edit the AWS draw.io source](site/assets/aws-services-architecture.drawio)
+or [read the target-architecture rationale](docs/ARCHITECTURE.md#target-aws-services-reference-architecture).
+
 ## Implemented methodology surface
 
 - Five phases and 33 stages from Initialization through Operation.

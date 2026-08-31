@@ -80,6 +80,8 @@ class ReleaseArtifactTests(WorkspaceTestCase):
                 "schemas/policy.schema.json",
                 "site/assets/architecture.drawio",
                 "site/assets/architecture.png",
+                "site/assets/aws-services-architecture.drawio",
+                "site/assets/aws-services-architecture.png",
                 "site/architecture.html",
                 "site/architecture.js",
                 "site/index.html",

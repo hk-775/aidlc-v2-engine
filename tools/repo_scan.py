@@ -123,6 +123,8 @@ REQUIRED_FILES = {
     "site/assets/architecture.drawio",
     "site/assets/architecture.png",
     "site/assets/architecture.svg",
+    "site/assets/aws-services-architecture.drawio",
+    "site/assets/aws-services-architecture.png",
     "site/index.html",
     "site/styles.css",
     "src/aidlc_v2_engine/data/scope-grid.json",

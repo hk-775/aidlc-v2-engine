@@ -44,6 +44,8 @@ EXPECTED_ASSETS = (
     "assets/architecture.drawio",
     "assets/architecture.png",
     "assets/architecture.svg",
+    "assets/aws-services-architecture.drawio",
+    "assets/aws-services-architecture.png",
 )
 
 
@@ -766,6 +768,9 @@ def verify_browser(base_url: str) -> dict[str, object]:
                   const image = document.querySelector(
                     'img[src="assets/architecture.png"]'
                   );
+                  const awsImage = document.querySelector(
+                    'img[src="assets/aws-services-architecture.png"]'
+                  );
                   const downloads = [...document.querySelectorAll(
                     ".download-grid a"
                   )].map((anchor) => anchor.href);
@@ -777,6 +782,9 @@ def verify_browser(base_url: str) -> dict[str, object]:
                     step: document.querySelector("#step-title")?.textContent,
                     imageComplete: Boolean(
                       image && image.complete && image.naturalWidth > 0
+                    ),
+                    awsImageComplete: Boolean(
+                      awsImage && awsImage.complete && awsImage.naturalWidth > 0
                     ),
                     rootRelativeCount: [...document.querySelectorAll("a")]
                       .filter((anchor) => anchor.getAttribute("href")?.startsWith("/"))
@@ -813,11 +821,15 @@ def verify_browser(base_url: str) -> dict[str, object]:
                 "architecture PNG did not load in Chrome",
             )
             require(
+                architecture["awsImageComplete"],
+                "AWS services architecture PNG did not load in Chrome",
+            )
+            require(
                 architecture["rootRelativeCount"] == 0,
                 "architecture page contains a root-relative link",
             )
             require(
-                len(architecture["downloads"]) == 4,
+                len(architecture["downloads"]) == 6,
                 "architecture download set is incomplete",
             )
             require(

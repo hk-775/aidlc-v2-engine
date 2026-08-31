@@ -38,7 +38,8 @@ AI-DLC v2 Engine production ready.
 - [ ] Credential scan passes.
 - [ ] Reachable Git history scan passes.
 - [ ] Workflow actions are pinned to full commit identifiers.
-- [ ] Build and coverage tools install from the reviewed hash lock.
+- [ ] `uv sync --locked` succeeds from a clean checkout.
+- [ ] All Python validation runs with `uv run --locked`.
 - [ ] gitleaks runs successfully, or unavailability is disclosed.
 - [ ] Synthetic demo reaches expected counts and valid audit state.
 - [ ] Package source and wheel build in temporary storage.
@@ -53,6 +54,7 @@ AI-DLC v2 Engine production ready.
 - [ ] No unresolved high-severity vulnerability is known.
 - [ ] Local runbook recovery steps were exercised.
 - [ ] Static-site content policy and external-asset scan pass.
+- [ ] Real-browser Pages-base, interaction, network, and mobile checks pass.
 - [ ] Manual keyboard and basic screen-reader review is complete.
 
 ## Branding and publication
@@ -72,7 +74,7 @@ AI-DLC v2 Engine production ready.
 
 ## Post-release
 
-- [ ] `uv tool install` and the quickstart are tested from the published source.
+- [ ] `uv sync --locked` and the quickstart are tested from the published source.
 - [ ] Release notes link to limitations and security reporting.
 - [ ] Known issues are opened and labeled.
 - [ ] Next version and support expectations are communicated.

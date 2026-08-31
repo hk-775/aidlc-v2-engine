@@ -115,8 +115,10 @@ def main() -> int:
             "/site/architecture.js",
             "/site/index.html",
             "/tests/test_lifecycle.py",
+            "/tools/browser_check.py",
             "/tools/history_scan.py",
             "/tools/release_check.py",
+            "/uv.lock",
         }
         source_ok = all(
             any(member.endswith(suffix) for member in source_members)

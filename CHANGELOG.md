@@ -20,6 +20,10 @@ All notable changes are documented here.
   security/provenance documentation, and verified release packaging.
 - Demo and package checks that run from operating-system temporary storage and
   do not require a writable source checkout.
+- Committed `uv.lock` automation for development, CI, Pages, and release
+  verification.
+- A dependency-free Chrome/Chromium check for exact Pages-base routing, local
+  assets, interactive controls, mobile layout, and prohibited network access.
 
 ### Security
 

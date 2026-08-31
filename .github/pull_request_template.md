@@ -15,6 +15,7 @@ audit integrity, or external boundaries. Write "none" only after checking.
 - [ ] Reachable Git history scan passes.
 - [ ] Synthetic demo passes.
 - [ ] Temporary package build and inspection pass.
+- [ ] Real-browser public-site check passes.
 - [ ] New behavior has denial and malformed-input tests.
 - [ ] Workflow actions are pinned to full commit identifiers when applicable.
 

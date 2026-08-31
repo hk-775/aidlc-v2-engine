@@ -37,6 +37,13 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: false
+          version: "0.10.7"
+      - name: Install locked development environment
+        run: uv sync --locked --python "${{ matrix.python-version }}"
       - name: Run tests
         run: make test
       - name: Run repository scans
@@ -58,6 +65,13 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: false
+          version: "0.10.7"
+      - name: Install locked development environment
+        run: uv sync --locked --python "3.12"
       - name: Run repository scans
         run: make scan
       - name: Scan reachable Git history
@@ -78,9 +92,35 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
-      - name: Install build toolchain
-        run: >-
-          python -m pip install --disable-pip-version-check
-          --require-hashes --requirement requirements-build.lock
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: false
+          version: "0.10.7"
+      - name: Install locked development environment
+        run: uv sync --locked --python "3.12"
       - name: Build and inspect temporary archives
         run: make package-check
+
+  browser:
+    name: Public site in Chrome
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: false
+          version: "0.10.7"
+      - name: Install locked development environment
+        run: uv sync --locked --python "3.12"
+      - name: Exercise exact Pages routes and interactions
+        run: make browser-check

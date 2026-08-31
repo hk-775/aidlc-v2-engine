@@ -19,7 +19,7 @@ that requires catalog tests, provenance review, and a new release.
 Inspect the active catalog:
 
 ```console
-aidlc-v2 catalog
+uv run --locked aidlc-v2 catalog
 ```
 
 ## Scope, depth, and test strategy
@@ -27,7 +27,7 @@ aidlc-v2 catalog
 Initialization accepts:
 
 ```console
-aidlc-v2 --store .tmp/example init \
+uv run --locked aidlc-v2 --store .tmp/example init \
   --name "Example" \
   --description "Add notification preferences" \
   --workspace-kind greenfield \
@@ -46,11 +46,11 @@ Depth and test strategy can later change independently with human-only
 commands:
 
 ```console
-aidlc-v2 --store .tmp/example set-depth \
+uv run --locked aidlc-v2 --store .tmp/example set-depth \
   --actor-id human_owner --actor-kind human \
   --depth comprehensive
 
-aidlc-v2 --store .tmp/example set-test-strategy \
+uv run --locked aidlc-v2 --store .tmp/example set-test-strategy \
   --actor-id human_owner --actor-kind human \
   --test-strategy standard
 ```
@@ -60,7 +60,7 @@ aidlc-v2 --store .tmp/example set-test-strategy \
 Pending ahead-of-cursor stages can be added or skipped:
 
 ```console
-aidlc-v2 --store .tmp/example recompose \
+uv run --locked aidlc-v2 --store .tmp/example recompose \
   --actor-id human_owner --actor-kind human \
   --add ci-pipeline \
   --skip market-research \
@@ -75,7 +75,7 @@ stages, the walking-skeleton anchor, and autonomous Construction.
 Pass a policy at initialization:
 
 ```console
-aidlc-v2 --store .tmp/example init \
+uv run --locked aidlc-v2 --store .tmp/example init \
   --name "Strict example" \
   --description "Fix a synthetic bug" \
   --workspace-kind brownfield \
@@ -88,7 +88,7 @@ aidlc-v2 --store .tmp/example init \
 Validate without changing state:
 
 ```console
-aidlc-v2 validate-policy --file examples/policy.strict.json
+uv run --locked aidlc-v2 validate-policy --file examples/policy.strict.json
 ```
 
 The complete shape is in `schemas/policy.schema.json`.

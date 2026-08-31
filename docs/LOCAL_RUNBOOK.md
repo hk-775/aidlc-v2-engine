@@ -7,9 +7,9 @@ This runbook covers one local workflow store on a POSIX host.
 ## Baseline checks
 
 ```console
-aidlc-v2 --store PATH status
-aidlc-v2 --store PATH verify-audit
-aidlc-v2 --store PATH outcomes
+uv run --locked aidlc-v2 --store PATH status
+uv run --locked aidlc-v2 --store PATH verify-audit
+uv run --locked aidlc-v2 --store PATH outcomes
 ```
 
 All reads validate state, policy binding, and the complete audit chain.
@@ -47,7 +47,7 @@ pair and is unsupported.
 ## Parked workflow
 
 ```console
-aidlc-v2 --store PATH resume \
+uv run --locked aidlc-v2 --store PATH resume \
   --actor-id HUMAN_ID \
   --actor-kind human
 ```
@@ -60,7 +60,7 @@ Autonomous Construction cannot be parked.
 Inspect `workflow.failure` in `status`, then choose:
 
 ```console
-aidlc-v2 --store PATH resolve-bolt-failure \
+uv run --locked aidlc-v2 --store PATH resolve-bolt-failure \
   --actor-id HUMAN_ID \
   --actor-kind human \
   --action retry
@@ -75,7 +75,7 @@ decision. The command retains the upstream `Bolt` term for compatibility.
 If `workflow.autonomy_prompt_pending` is true:
 
 ```console
-aidlc-v2 --store PATH set-autonomy \
+uv run --locked aidlc-v2 --store PATH set-autonomy \
   --actor-id HUMAN_ID \
   --actor-kind human \
   --mode gated

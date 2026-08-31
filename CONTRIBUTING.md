@@ -22,13 +22,11 @@ Do not submit:
 ## Development setup
 
 Python 3.11 or newer is required. Runtime dependencies are intentionally empty.
-Create a local environment and install the reviewed automation tools with `uv`
-and hash verification:
+Create the reviewed development environment directly from the committed lock:
 
 ```console
-uv venv
-uv pip install --require-hashes -r requirements-build.lock
-uv tool install --editable .
+uv sync --locked
+uv run --locked aidlc-v2 --help
 ```
 
 ```console
@@ -38,9 +36,11 @@ make scan
 make history-scan
 make demo
 make package-check
+make browser-check
 ```
 
-Use `PYTHONPATH=src` when running modules directly.
+Chrome or Chromium is required for `make browser-check`. Make targets invoke
+Python with `uv run --locked` and set `PYTHONPATH=src`.
 
 ## Design expectations
 

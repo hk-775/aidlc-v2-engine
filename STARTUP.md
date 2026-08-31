@@ -10,7 +10,8 @@
 ```console
 python3 --version
 uv --version
-aidlc-v2 --help
+uv sync --locked
+uv run --locked aidlc-v2 --help
 ```
 
 ## Methodology baseline
@@ -21,7 +22,7 @@ aidlc-v2 --help
 - [ ] Understand that this is independent, not an official AWS release.
 
 ```console
-aidlc-v2 catalog
+uv run --locked aidlc-v2 catalog
 ```
 
 Expected catalog totals: five phases, 33 stages, 11 core scopes, 11 domain
@@ -34,6 +35,7 @@ make test
 make scan
 make demo
 make package-check
+make browser-check
 ```
 
 Run `make coverage` and `make history-scan` before release review.
@@ -41,9 +43,9 @@ Run `make coverage` and `make history-scan` before release review.
 ## Demo smoke test
 
 ```console
-aidlc-v2 --store .tmp/startup-demo demo
-aidlc-v2 --store .tmp/startup-demo verify-audit
-aidlc-v2 --store .tmp/startup-demo outcomes
+uv run --locked aidlc-v2 --store .tmp/startup-demo demo
+uv run --locked aidlc-v2 --store .tmp/startup-demo verify-audit
+uv run --locked aidlc-v2 --store .tmp/startup-demo outcomes
 ```
 
 Confirm:
@@ -59,7 +61,7 @@ Confirm:
 ## Authority check
 
 ```console
-aidlc-v2 --store .tmp/startup-demo guard-operation \
+uv run --locked aidlc-v2 --store .tmp/startup-demo guard-operation \
   --actor-id agent_builder \
   --actor-kind agent \
   --operation release

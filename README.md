@@ -80,7 +80,8 @@ delivery systems remain outside this engine.
 ## Requirements
 
 - Python 3.11 or newer
-- `uv` for the recommended isolated installation
+- `uv` 0.10.7 or newer for locked development and validation
+- Chrome or Chromium for the real-browser public-site check
 - POSIX advisory file locking
 - No runtime Python dependencies
 
@@ -89,8 +90,8 @@ delivery systems remain outside this engine.
 ```console
 git clone https://github.com/hk-775/aidlc-v2-engine.git
 cd aidlc-v2-engine
-uv tool install .
-aidlc-v2 --store .tmp/demo demo
+uv sync --locked
+uv run --locked aidlc-v2 --store .tmp/demo demo
 ```
 
 The synthetic `bugfix` demo completes:
@@ -110,14 +111,14 @@ deployment, release, or network operation.
 ## Inspect the methodology
 
 ```console
-aidlc-v2 catalog
-aidlc-v2 detect-scope --description "Patch a CVE in the parser"
+uv run --locked aidlc-v2 catalog
+uv run --locked aidlc-v2 detect-scope --description "Patch a CVE in the parser"
 ```
 
 Initialize a separate workflow:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   init \
   --name "Parser repair" \
@@ -168,16 +169,19 @@ docs/                 product, architecture, security, and operations material
 ## Validate the repository
 
 ```console
+uv sync --locked
 make test
 make coverage
 make scan
 make history-scan
 make demo
 make package-check
+make browser-check
 ```
 
-Release archives are built from annotated tags and verified before upload.
-The workflow does not publish to a package index.
+Every Make target invokes Python through `uv run --locked`. Release archives
+are built from annotated tags and verified before upload. The workflow does
+not publish to a package index.
 
 ## Current limitations
 

@@ -18,6 +18,7 @@ source and validated without private services or production credentials.
 | Evaluator checklist | Supported environment, validation, smoke tests, and cautions | `STARTUP.md` |
 | Project landing page | Public product summary and synthetic lifecycle status | `site/index.html` |
 | Architecture explorer | Interactive lifecycle, governance, persistence, and trust-boundary walkthrough | `site/architecture.html` |
+| Browser publication check | Exact Pages-base routes, local assets, interactions, mobile layout, and prohibited-network checks in Chrome | `tools/browser_check.py` |
 | Requirements baseline | Pinned upstream source, methodology requirements, implementation coverage, and deviations | `docs/V2_REQUIREMENTS.md` |
 | Provenance record | Boundary between derived MIT-0 catalog data and original Apache-2.0 implementation | `docs/CLEAN_ROOM_PROVENANCE.md`, `THIRD_PARTY_NOTICES.md` |
 | Synthetic evidence set | Canonical v2 output-name examples for the bugfix demo path | `examples/evidence/` |
@@ -53,9 +54,10 @@ The source distribution must contain:
 - the landing page and architecture explorer;
 - both site JavaScript files and the shared stylesheet;
 - the editable draw.io source and PNG render;
-- this publication inventory and the long-form architecture reference; and
+- the committed `uv.lock` and real-browser publication check;
+- this publication inventory and the long-form architecture reference;
 - the v2 requirements baseline and attributed catalog resources;
-- the release verification tooling.
+- and the release verification tooling.
 
 `tools/package_check.py` and `tools/release_check.py` enforce those members.
 
@@ -64,21 +66,25 @@ The source distribution must contain:
 Before publication or announcement, run:
 
 ```console
+uv sync --locked
 make test
 make coverage
 make scan
 make history-scan
 make demo
 make package-check
+make browser-check
 ```
 
-Then verify both pages locally:
+The browser check serves both pages beneath the exact
+`/aidlc-v2-engine/` Pages base, exercises the architecture controls, verifies
+downloads and responsive layout, and rejects failed or external requests.
+For an already-published site, run:
 
 ```console
-make site
+uv run --locked python tools/browser_check.py \
+  --base-url https://hk-775.github.io/aidlc-v2-engine/
 ```
-
-Open `/` and `/architecture.html` from the printed local address.
 
 ## Intentional omissions
 
@@ -88,6 +94,6 @@ artifacts. The implementation is a local evaluation engine with no remote API
 or external delivery integration, so publishing those artifacts would imply a
 deployment surface that does not exist.
 
-Runtime dependencies are empty. The build and coverage toolchain remains
-exactly versioned and hash-locked in `requirements-build.lock`; it is not
-duplicated as an application dependency lock.
+Runtime dependencies are empty. `uv.lock` is the authoritative development,
+CI, Pages, and release environment. `requirements-build.lock` remains as a
+secondary hash-locked inventory for independent toolchain review.

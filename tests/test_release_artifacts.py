@@ -84,8 +84,10 @@ class ReleaseArtifactTests(WorkspaceTestCase):
                 "site/architecture.js",
                 "site/index.html",
                 "tests/test_lifecycle.py",
+                "tools/browser_check.py",
                 "tools/history_scan.py",
                 "tools/release_check.py",
+                "uv.lock",
             ):
                 content = b"synthetic\n"
                 info = tarfile.TarInfo(f"aidlc_v2_engine-0.1.0/{member}")

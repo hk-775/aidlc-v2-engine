@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">AI-DLC v2 Engine icon</title>
+  <desc id="desc">A checked lifecycle boundary.</desc>
+  <path d="M64 8 112 36v56l-48 28L16 92V36Z" fill="#006d5b"/>
+  <path
+    d="m39 65 17 17 34-42"
+    fill="none"
+    stroke="#f4b942"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="12"
+  />
+</svg>

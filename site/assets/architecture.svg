@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AI-DLC v2 Engine local automation architecture</title>
+  <desc id="desc">
+    Human and agent callers use a JSON command line. A pinned five-phase,
+    33-stage catalog and 11-core-scope grid feed the workflow service. Authority,
+    stage gates, Unit and Bolt controls, atomic state, and hash-linked audit
+    records are implemented locally. Model harnesses and delivery systems are
+    outside the engine.
+  </desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 12 6 0 12Z" fill="#526176"/>
+    </marker>
+    <style>
+      .panel { fill: #ffffff; stroke: #006d5b; stroke-width: 3; }
+      .group { fill: #edf7f4; stroke: #006d5b; stroke-width: 3; }
+      .outside { fill: #f6f8f7; stroke: #526176; stroke-width: 3; stroke-dasharray: 12 9; }
+      .heading { fill: #14213d; font: 700 25px ui-sans-serif, system-ui, sans-serif; text-anchor: middle; }
+      .small { fill: #526176; font: 18px ui-sans-serif, system-ui, sans-serif; text-anchor: middle; }
+      .group-label { fill: #006d5b; font: 800 20px ui-sans-serif, system-ui, sans-serif; letter-spacing: 1px; }
+      .line { fill: none; stroke: #526176; stroke-width: 3; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 12 9; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="28" fill="#fffdf8"/>
+  <text x="800" y="58" class="heading">AI-DLC v2 Engine: local methodology control plane</text>
+
+  <rect class="panel" x="45" y="345" width="210" height="120" rx="18"/>
+  <text class="heading" x="150" y="392">Human + agent</text>
+  <text class="small" x="150" y="425">asserted callers</text>
+
+  <rect class="panel" x="305" y="345" width="205" height="120" rx="18"/>
+  <text class="heading" x="407" y="392">JSON CLI</text>
+  <text class="small" x="407" y="425">aidlc-v2</text>
+
+  <rect class="group" x="565" y="95" width="545" height="690" rx="24"/>
+  <text class="group-label" x="595" y="132">LOCAL ENGINE</text>
+
+  <rect class="panel" x="605" y="160" width="220" height="125" rx="18"/>
+  <text class="heading" x="715" y="205">Pinned v2 catalog</text>
+  <text class="small" x="715" y="238">5 phases · 33 stages</text>
+
+  <rect class="panel" x="850" y="160" width="220" height="125" rx="18"/>
+  <text class="heading" x="960" y="205">Scope grid</text>
+  <text class="small" x="960" y="238">11 core presets</text>
+
+  <rect class="panel" x="605" y="335" width="465" height="145" rx="18"/>
+  <text class="heading" x="837" y="380">Workflow / lifecycle core</text>
+  <text class="small" x="837" y="415">artifacts · reviewers · gates · navigation</text>
+  <text class="small" x="837" y="443">learning · sensors · recovery</text>
+
+  <rect class="panel" x="605" y="535" width="220" height="150" rx="18"/>
+  <text class="heading" x="715" y="580">Stage-major Units</text>
+  <text class="small" x="715" y="613">one gate per stage</text>
+  <text class="small" x="715" y="641">bounded autonomy</text>
+
+  <rect class="panel" x="850" y="535" width="220" height="150" rx="18"/>
+  <text class="heading" x="960" y="580">Authority + policy</text>
+  <text class="small" x="960" y="613">human-only controls</text>
+  <text class="small" x="960" y="641">fail-closed denial</text>
+
+  <rect class="panel" x="1170" y="175" width="360" height="135" rx="18"/>
+  <text class="heading" x="1350" y="222">Atomic workflow state</text>
+  <text class="small" x="1350" y="257">recoverable event/state pair</text>
+
+  <rect class="panel" x="1170" y="360" width="360" height="135" rx="18"/>
+  <text class="heading" x="1350" y="407">Hash-linked audit</text>
+  <text class="small" x="1350" y="442">exclusive append · full verification</text>
+
+  <rect class="outside" x="1170" y="560" width="360" height="115" rx="18"/>
+  <text class="heading" x="1350" y="603">Worker / model harness</text>
+  <text class="small" x="1350" y="638">not bundled or invoked</text>
+
+  <rect class="outside" x="1170" y="715" width="360" height="115" rx="18"/>
+  <text class="heading" x="1350" y="758">SCM · CI/CD · deployment</text>
+  <text class="small" x="1350" y="793">not connected</text>
+
+  <path class="line" d="M255 405H305"/>
+  <path class="line" d="M510 405H605"/>
+  <path class="line" d="M715 285V335"/>
+  <path class="line" d="M960 285V335"/>
+  <path class="line" d="M715 480V535"/>
+  <path class="line" d="M960 480V535"/>
+  <path class="line" d="M1070 382 1170 270"/>
+  <path class="line" d="M1070 430 1170 425"/>
+  <path class="line dash" d="M1070 525 1170 615"/>
+  <path class="line dash" d="M1070 475 1170 770"/>
+</svg>

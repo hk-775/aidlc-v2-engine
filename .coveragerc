@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = aidlc_v2_engine
+
+[report]
+exclude_also =
+    if __name__ == .__main__.:
+show_missing = True
+skip_covered = False
+precision = 2

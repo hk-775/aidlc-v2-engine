@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/hk-775/aidlc-v2-engine/security/advisories/new
+    about: Use GitHub private vulnerability reporting; do not open a public issue.
+  - name: Support and evaluation guidance
+    url: https://github.com/hk-775/aidlc-v2-engine/blob/main/SUPPORT.md
+    about: Review supported environments, diagnostic commands, and support scope.

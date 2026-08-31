@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 112" role="img" aria-labelledby="title desc">
+  <title id="title">AI-DLC v2 Engine logo</title>
+  <desc id="desc">A green hexagonal path beside the words AI-DLC v2 Engine.</desc>
+  <g fill="none" stroke="#006d5b" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M54 12 94 35v45l-40 23L14 80V35Z" stroke-width="8"/>
+    <path d="m34 58 14 14 28-32" stroke="#f4b942" stroke-width="9"/>
+  </g>
+  <text
+    x="122"
+    y="76"
+    fill="#14213d"
+    font-family="ui-sans-serif, system-ui, sans-serif"
+    font-size="44"
+    font-weight="800"
+    letter-spacing="1.5"
+  >AI-DLC ENGINE</text>
+</svg>

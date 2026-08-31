@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.python-version
+.venv/
+venv/
+
+# Test and coverage output
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Builds and package archives
+build/
+dist/
+.tmp/
+*.whl
+*.tar.gz
+*.zip
+
+# Local AI-DLC v2 Engine state and demo output
+.aidlc-v2/
+.aidlc-v2-*/
+# Legacy first-generation store paths remain ignored for compatibility.
+.aidlc-engine/
+.aidlc-engine-*/
+.aidlc/
+.aidlc-*/
+demo-data/
+local-data/
+*.lock
+!requirements-build.lock
+!requirements.lock
+*.pending.json
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*~

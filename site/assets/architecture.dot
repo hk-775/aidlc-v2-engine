@@ -1,0 +1,66 @@
+digraph aidlc_v2_engine {
+  graph [
+    bgcolor="transparent",
+    rankdir="LR",
+    pad="0.4",
+    nodesep="0.45",
+    ranksep="0.75"
+  ];
+  node [
+    shape="box",
+    style="rounded,filled",
+    color="#006d5b",
+    fillcolor="#ffffff",
+    fontname="Arial",
+    fontcolor="#14213d",
+    margin="0.18"
+  ];
+  edge [
+    color="#526176",
+    fontname="Arial",
+    fontcolor="#14213d"
+  ];
+
+  callers [label="Human and agent\nasserted callers"];
+  cli [label="JSON CLI\naidlc-v2"];
+
+  subgraph cluster_engine {
+    label="Local AI-DLC v2 Engine";
+    color="#006d5b";
+    style="rounded,filled";
+    fillcolor="#edf7f4";
+
+    catalog [label="Pinned v2 catalog\n5 phases · 33 stages"];
+    scopes [label="Scope grid\n11 core presets"];
+    core [label="Workflow / lifecycle core\nartifacts · reviewers · gates · navigation"];
+    bolts [label="Stage-major Unit controls\none gate per stage · autonomy · recovery"];
+    policy [label="Authority and policy\nhuman-only controls · fail closed"];
+
+    catalog -> core;
+    scopes -> core;
+    core -> bolts;
+    core -> policy;
+  }
+
+  state [label="Atomic workflow state\nrecoverable transaction"];
+  audit [label="Hash-linked audit events\nexclusive append"];
+  workers [
+    label="Worker / model harness\n(not bundled)",
+    style="rounded,dashed,filled",
+    color="#526176",
+    fillcolor="#f6f8f7"
+  ];
+  delivery [
+    label="SCM · CI/CD · deployment\n(not connected)",
+    style="rounded,dashed,filled",
+    color="#526176",
+    fillcolor="#f6f8f7"
+  ];
+
+  callers -> cli [label="commands"];
+  cli -> core [label="validated operation"];
+  core -> state [label="atomic snapshot"];
+  core -> audit [label="hash-linked event"];
+  core -> workers [style="dashed"];
+  core -> delivery [style="dashed"];
+}

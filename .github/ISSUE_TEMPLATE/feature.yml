@@ -1,0 +1,54 @@
+name: Feature proposal
+description: Propose an improvement while preserving human authority.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Describe the need without prescribing implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+    validations:
+      required: true
+  - type: dropdown
+    id: boundary
+    attributes:
+      label: Affected boundary
+      options:
+        - Lifecycle
+        - Policy
+        - Evidence
+        - Assignment
+        - Audit and persistence
+        - CLI
+        - Documentation or site
+        - Governance
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Authority and safety impact
+      description: Explain any effect on agent capability or human decisions.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: invariants
+    attributes:
+      label: Required invariants
+      options:
+        - label: Agents remain unable to merge, deploy, release, accept risk, approve, or bypass gates.
+          required: true
+        - label: Examples and proposed fixtures are synthetic and provenance-safe.
+          required: true

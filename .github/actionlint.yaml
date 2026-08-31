@@ -1,0 +1,3 @@
+# AI-DLC v2 Engine uses only GitHub-hosted runners.
+self-hosted-runner:
+  labels: []

@@ -1,0 +1,10 @@
+# Default repository ownership.
+* @hk-775
+
+# Security-sensitive and release-critical areas.
+/src/aidlc_v2_engine/ @hk-775
+/schemas/ @hk-775
+/tools/ @hk-775
+/.github/workflows/ @hk-775
+/SECURITY.md @hk-775
+/GOVERNANCE.md @hk-775

@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aidlc-v2-engine"
+version = "0.1.0"
+description = "An independent, human-governed automation engine for AI-DLC v2"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [
+  {name = "AI-DLC v2 Engine Contributors"},
+]
+maintainers = [
+  {name = "AI-DLC v2 Engine Maintainers"},
+]
+keywords = [
+  "ai-development-lifecycle",
+  "ai-governance",
+  "audit",
+  "automation",
+  "software-delivery",
+  "workflow",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.scripts]
+aidlc-v2 = "aidlc_v2_engine.cli:main"
+
+[project.urls]
+Homepage = "https://hk-775.github.io/aidlc-v2-engine/"
+Repository = "https://github.com/hk-775/aidlc-v2-engine"
+Issues = "https://github.com/hk-775/aidlc-v2-engine/issues"
+Documentation = "https://github.com/hk-775/aidlc-v2-engine/tree/main/docs"
+Changelog = "https://github.com/hk-775/aidlc-v2-engine/blob/main/CHANGELOG.md"
+Security = "https://github.com/hk-775/aidlc-v2-engine/security/policy"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aidlc_v2_engine = ["data/*.json"]

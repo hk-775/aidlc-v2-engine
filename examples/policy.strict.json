@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "gates": {
+    "require_human_for_non_initialization": true,
+    "require_independent_approval": true,
+    "revision_limit": 3,
+    "reviewer_max_iterations": 2,
+    "allow_accept_as_is_after_limit": true,
+    "require_declared_outputs": true,
+    "require_declared_inputs": true,
+    "require_sensor_results": true
+  },
+  "agent_permissions": {
+    "register_artifact": true,
+    "answer_question": true,
+    "record_sensor": true,
+    "record_review": true,
+    "request_approval": true,
+    "complete_unit_stage": true,
+    "complete_autonomous_stage": true,
+    "add_unit": true,
+    "fail_bolt": true,
+    "propose_learning": true,
+    "approve_stage": false,
+    "reject_stage": false,
+    "accept_as_is": false,
+    "recompose": false,
+    "skip_stage": false,
+    "jump_stage": false,
+    "redo_stage": false,
+    "set_depth": false,
+    "set_test_strategy": false,
+    "set_autonomy": false,
+    "resolve_bolt_failure": false,
+    "accept_learning": false,
+    "park_workflow": false,
+    "resume_workflow": false,
+    "loop_workflow": false,
+    "merge": false,
+    "deploy": false,
+    "release": false,
+    "accept_risk": false,
+    "bypass_gate": false
+  },
+  "construction": {
+    "first_bolt_gated": true,
+    "failure_halts": true,
+    "allow_parallel_independent_bolts": false,
+    "max_units": 50
+  },
+  "artifact_controls": {
+    "digest_algorithm": "sha256",
+    "require_workspace_change_for_code_generation": true
+  },
+  "learning": {
+    "apply_learned_rules_next_workflow": true,
+    "allow_org_promotion": false
+  },
+  "limits": {
+    "max_artifacts": 2000,
+    "max_gates": 500,
+    "max_questions": 2000,
+    "max_sensors": 2000,
+    "max_reviews": 500,
+    "max_learnings": 500
+  }
+}

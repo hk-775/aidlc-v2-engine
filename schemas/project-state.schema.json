@@ -1,0 +1,944 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aidlc-v2-engine:schema:project-state:2",
+  "title": "AI-DLC v2 Engine project state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "policy_digest",
+    "revision",
+    "workflow",
+    "phases",
+    "stages",
+    "artifacts",
+    "gates",
+    "questions",
+    "sensors",
+    "reviews",
+    "units",
+    "learnings",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "project": {
+      "$ref": "#/$defs/project"
+    },
+    "policy_digest": {
+      "$ref": "#/$defs/hash"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "workflow": {
+      "$ref": "#/$defs/workflow"
+    },
+    "phases": {
+      "type": "object",
+      "minProperties": 5,
+      "maxProperties": 5,
+      "propertyNames": {
+        "$ref": "#/$defs/phase"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/phaseRecord"
+      }
+    },
+    "stages": {
+      "type": "object",
+      "minProperties": 33,
+      "maxProperties": 33,
+      "propertyNames": {
+        "$ref": "#/$defs/stage"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/stageRecord"
+      }
+    },
+    "artifacts": {
+      "$ref": "#/$defs/artifactCollection"
+    },
+    "gates": {
+      "$ref": "#/$defs/gateCollection"
+    },
+    "questions": {
+      "$ref": "#/$defs/questionCollection"
+    },
+    "sensors": {
+      "$ref": "#/$defs/sensorCollection"
+    },
+    "reviews": {
+      "$ref": "#/$defs/reviewCollection"
+    },
+    "units": {
+      "$ref": "#/$defs/unitCollection"
+    },
+    "learnings": {
+      "$ref": "#/$defs/learningCollection"
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_count",
+        "head_hash"
+      ],
+      "properties": {
+        "event_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "head_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,63}$"
+    },
+    "nullableIdentifier": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "artifactName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"
+    },
+    "nullableTimestamp": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/timestamp"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "initialization",
+        "ideation",
+        "inception",
+        "construction",
+        "operation"
+      ]
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "workspace-scaffold",
+        "workspace-detection",
+        "state-init",
+        "intent-capture",
+        "market-research",
+        "feasibility",
+        "scope-definition",
+        "team-formation",
+        "rough-mockups",
+        "approval-handoff",
+        "reverse-engineering",
+        "practices-discovery",
+        "requirements-analysis",
+        "user-stories",
+        "refined-mockups",
+        "domain-design",
+        "units-generation",
+        "contract-design",
+        "delivery-planning",
+        "functional-design",
+        "nfr-requirements",
+        "nfr-design",
+        "infrastructure-design",
+        "code-generation",
+        "build-and-test",
+        "ci-pipeline",
+        "deployment-pipeline",
+        "environment-provisioning",
+        "deployment-execution",
+        "observability-setup",
+        "incident-response",
+        "performance-validation",
+        "feedback-optimization"
+      ]
+    },
+    "nullableStage": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description",
+        "workspace_kind",
+        "created_at",
+        "created_by"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "workspace_kind": {
+          "enum": [
+            "greenfield",
+            "brownfield"
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "created_by": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "stage",
+        "summary",
+        "failed_at",
+        "reported_by"
+      ],
+      "properties": {
+        "unit_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "failed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "reported_by": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "scope",
+        "scope_source",
+        "depth",
+        "test_strategy",
+        "iteration",
+        "current_stage",
+        "current_unit_id",
+        "last_completed_stage",
+        "construction_autonomy",
+        "autonomy_prompt_pending",
+        "composition_revision",
+        "started_at",
+        "parked_at",
+        "completed_at",
+        "failure"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "running",
+            "parked",
+            "completed",
+            "aborted"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "enterprise",
+            "feature",
+            "mvp",
+            "poc",
+            "bugfix",
+            "refactor",
+            "infra",
+            "security-patch",
+            "classic",
+            "workshop",
+            "express"
+          ]
+        },
+        "scope_source": {
+          "enum": [
+            "explicit",
+            "auto",
+            "composed"
+          ]
+        },
+        "depth": {
+          "enum": [
+            "minimal",
+            "standard",
+            "comprehensive"
+          ]
+        },
+        "test_strategy": {
+          "enum": [
+            "minimal",
+            "standard",
+            "comprehensive"
+          ]
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "current_stage": {
+          "$ref": "#/$defs/nullableStage"
+        },
+        "current_unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "last_completed_stage": {
+          "$ref": "#/$defs/nullableStage"
+        },
+        "construction_autonomy": {
+          "enum": [
+            null,
+            "gated",
+            "autonomous"
+          ]
+        },
+        "autonomy_prompt_pending": {
+          "type": "boolean"
+        },
+        "composition_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "started_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "parked_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/failure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "phaseRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "verified_at"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "active",
+            "verified",
+            "skipped"
+          ]
+        },
+        "verified_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        }
+      }
+    },
+    "stageRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "status",
+        "revision_count",
+        "reviewer_iterations",
+        "started_at",
+        "completed_at",
+        "current_gate_id"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "execute",
+            "skip"
+          ]
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "active",
+            "awaiting_approval",
+            "revising",
+            "completed",
+            "skipped"
+          ]
+        },
+        "revision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reviewer_iterations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "started_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "current_gate_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "stage",
+        "unit_id",
+        "title",
+        "digest",
+        "locator",
+        "workspace_change",
+        "submitted_by",
+        "submitted_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "name": {
+          "$ref": "#/$defs/artifactName"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "workspace_change": {
+          "type": "boolean"
+        },
+        "submitted_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "submitted_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "stage",
+        "unit_id",
+        "status",
+        "rationale",
+        "evidence_ids",
+        "requested_by",
+        "requested_by_kind",
+        "requested_at",
+        "decided_by",
+        "decided_at",
+        "reason",
+        "accept_as_is"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "approved",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "evidence_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "requested_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "requested_by_kind": {
+          "enum": [
+            "human",
+            "agent"
+          ]
+        },
+        "requested_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "decided_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "accept_as_is": {
+          "type": "boolean"
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "stage",
+        "unit_id",
+        "mode",
+        "prompt",
+        "answer",
+        "answered_by",
+        "answered_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "mode": {
+          "enum": [
+            "guide",
+            "edit-file",
+            "chat"
+          ]
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "answered_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "answered_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "sensor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "stage",
+        "unit_id",
+        "sensor",
+        "status",
+        "summary",
+        "recorded_by",
+        "recorded_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "sensor": {
+          "$ref": "#/$defs/artifactName"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "warn",
+            "fail"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "recorded_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "stage",
+        "unit_id",
+        "reviewer",
+        "verdict",
+        "iteration",
+        "summary",
+        "recorded_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "unit_id": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "reviewer": {
+          "$ref": "#/$defs/identifier"
+        },
+        "verdict": {
+          "enum": [
+            "ready",
+            "not-ready"
+          ]
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "unitStageStatuses": {
+      "type": "object",
+      "minProperties": 5,
+      "maxProperties": 5,
+      "propertyNames": {
+        "enum": [
+          "functional-design",
+          "nfr-requirements",
+          "nfr-design",
+          "infrastructure-design",
+          "code-generation"
+        ]
+      },
+      "additionalProperties": {
+        "enum": [
+          "pending",
+          "active",
+          "awaiting_approval",
+          "revising",
+          "completed",
+          "skipped"
+        ]
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "order",
+        "dependencies",
+        "walking_skeleton",
+        "status",
+        "stage_statuses",
+        "created_by",
+        "created_at",
+        "completed_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "kind": {
+          "enum": [
+            "service",
+            "spec",
+            "ui",
+            "packaging",
+            "library"
+          ]
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "walking_skeleton": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "active",
+            "completed",
+            "failed",
+            "skipped"
+          ]
+        },
+        "stage_statuses": {
+          "$ref": "#/$defs/unitStageStatuses"
+        },
+        "created_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        }
+      }
+    },
+    "learning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "section",
+        "summary",
+        "status",
+        "target_scope",
+        "proposed_by",
+        "proposed_at",
+        "decided_by",
+        "decided_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "section": {
+          "enum": [
+            "interpretation",
+            "deviation",
+            "tradeoff",
+            "open-question"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "status": {
+          "enum": [
+            "candidate",
+            "kept",
+            "rejected"
+          ]
+        },
+        "target_scope": {
+          "enum": [
+            null,
+            "project",
+            "team"
+          ]
+        },
+        "proposed_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "proposed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/nullableIdentifier"
+        },
+        "decided_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        }
+      }
+    },
+    "artifactCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "gateCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "questionCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/question"
+      }
+    },
+    "sensorCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/sensor"
+      }
+    },
+    "reviewCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/review"
+      }
+    },
+    "unitCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/unit"
+      }
+    },
+    "learningCollection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/learning"
+      }
+    }
+  }
+}

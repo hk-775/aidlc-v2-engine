@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aidlc-v2-engine:schema:policy:2",
+  "title": "AI-DLC v2 Engine policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gates",
+    "agent_permissions",
+    "construction",
+    "artifact_controls",
+    "learning",
+    "limits"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "require_human_for_non_initialization",
+        "require_independent_approval",
+        "revision_limit",
+        "reviewer_max_iterations",
+        "allow_accept_as_is_after_limit",
+        "require_declared_outputs",
+        "require_declared_inputs",
+        "require_sensor_results"
+      ],
+      "properties": {
+        "require_human_for_non_initialization": {
+          "const": true
+        },
+        "require_independent_approval": {
+          "const": true
+        },
+        "revision_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "reviewer_max_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "allow_accept_as_is_after_limit": {
+          "type": "boolean"
+        },
+        "require_declared_outputs": {
+          "const": true
+        },
+        "require_declared_inputs": {
+          "const": true
+        },
+        "require_sensor_results": {
+          "type": "boolean"
+        }
+      }
+    },
+    "agent_permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "register_artifact",
+        "answer_question",
+        "record_sensor",
+        "record_review",
+        "request_approval",
+        "complete_unit_stage",
+        "complete_autonomous_stage",
+        "add_unit",
+        "fail_bolt",
+        "propose_learning",
+        "approve_stage",
+        "reject_stage",
+        "accept_as_is",
+        "recompose",
+        "skip_stage",
+        "jump_stage",
+        "redo_stage",
+        "set_depth",
+        "set_test_strategy",
+        "set_autonomy",
+        "resolve_bolt_failure",
+        "accept_learning",
+        "park_workflow",
+        "resume_workflow",
+        "loop_workflow",
+        "merge",
+        "deploy",
+        "release",
+        "accept_risk",
+        "bypass_gate"
+      ],
+      "properties": {
+        "register_artifact": {
+          "type": "boolean"
+        },
+        "answer_question": {
+          "type": "boolean"
+        },
+        "record_sensor": {
+          "type": "boolean"
+        },
+        "record_review": {
+          "type": "boolean"
+        },
+        "request_approval": {
+          "type": "boolean"
+        },
+        "complete_unit_stage": {
+          "type": "boolean"
+        },
+        "complete_autonomous_stage": {
+          "type": "boolean"
+        },
+        "add_unit": {
+          "type": "boolean"
+        },
+        "fail_bolt": {
+          "type": "boolean"
+        },
+        "propose_learning": {
+          "type": "boolean"
+        },
+        "approve_stage": {
+          "const": false
+        },
+        "reject_stage": {
+          "const": false
+        },
+        "accept_as_is": {
+          "const": false
+        },
+        "recompose": {
+          "const": false
+        },
+        "skip_stage": {
+          "const": false
+        },
+        "jump_stage": {
+          "const": false
+        },
+        "redo_stage": {
+          "const": false
+        },
+        "set_depth": {
+          "const": false
+        },
+        "set_test_strategy": {
+          "const": false
+        },
+        "set_autonomy": {
+          "const": false
+        },
+        "resolve_bolt_failure": {
+          "const": false
+        },
+        "accept_learning": {
+          "const": false
+        },
+        "park_workflow": {
+          "const": false
+        },
+        "resume_workflow": {
+          "const": false
+        },
+        "loop_workflow": {
+          "const": false
+        },
+        "merge": {
+          "const": false
+        },
+        "deploy": {
+          "const": false
+        },
+        "release": {
+          "const": false
+        },
+        "accept_risk": {
+          "const": false
+        },
+        "bypass_gate": {
+          "const": false
+        }
+      }
+    },
+    "construction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_bolt_gated",
+        "failure_halts",
+        "allow_parallel_independent_bolts",
+        "max_units"
+      ],
+      "properties": {
+        "first_bolt_gated": {
+          "const": true
+        },
+        "failure_halts": {
+          "const": true
+        },
+        "allow_parallel_independent_bolts": {
+          "type": "boolean"
+        },
+        "max_units": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        }
+      }
+    },
+    "artifact_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest_algorithm",
+        "require_workspace_change_for_code_generation"
+      ],
+      "properties": {
+        "digest_algorithm": {
+          "const": "sha256"
+        },
+        "require_workspace_change_for_code_generation": {
+          "const": true
+        }
+      }
+    },
+    "learning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apply_learned_rules_next_workflow",
+        "allow_org_promotion"
+      ],
+      "properties": {
+        "apply_learned_rules_next_workflow": {
+          "const": true
+        },
+        "allow_org_promotion": {
+          "const": false
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_artifacts",
+        "max_gates",
+        "max_questions",
+        "max_sensors",
+        "max_reviews",
+        "max_learnings"
+      ],
+      "properties": {
+        "max_artifacts": {
+          "$ref": "#/$defs/positiveLimit"
+        },
+        "max_gates": {
+          "$ref": "#/$defs/positiveLimit"
+        },
+        "max_questions": {
+          "$ref": "#/$defs/positiveLimit"
+        },
+        "max_sensors": {
+          "$ref": "#/$defs/positiveLimit"
+        },
+        "max_reviews": {
+          "$ref": "#/$defs/positiveLimit"
+        },
+        "max_learnings": {
+          "$ref": "#/$defs/positiveLimit"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "positiveLimit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000
+    }
+  }
+}

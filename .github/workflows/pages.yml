@@ -35,8 +35,17 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: false
+          version: "0.10.7"
+      - name: Install locked development environment
+        run: uv sync --locked --python "3.12"
       - name: Validate static source
-        run: PYTHONPATH=src python tools/repo_scan.py external_assets
+        run: uv run --locked python tools/repo_scan.py external_assets
+      - name: Exercise exact Pages routes and interactions
+        run: uv run --locked python tools/browser_check.py
       - name: Prepare site artifact
         run: |
           mkdir -p "${RUNNER_TEMP}/aidlc-v2-engine-pages"

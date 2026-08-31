@@ -1,15 +1,9 @@
-PYTHON ?= $(shell \
-	for candidate in python3 python3.13 python3.12 python3.11; do \
-		command -v $$candidate >/dev/null 2>&1 || continue; \
-		$$candidate -c 'import sys; raise SystemExit(sys.version_info < (3, 11))' \
-			>/dev/null 2>&1 || continue; \
-		command -v $$candidate; \
-		break; \
-	done)
+UV ?= uv
+PYTHON ?= $(UV) run --locked python
 export PYTHONPATH := src
 export PYTHONDONTWRITEBYTECODE := 1
 
-.PHONY: help check-python test coverage scan history-scan demo package-check check site
+.PHONY: help check-python test coverage scan history-scan demo package-check browser-check check site
 
 help:
 	@echo "AI-DLC v2 Engine developer targets:"
@@ -19,12 +13,14 @@ help:
 	@echo "  make history-scan  Scan every reachable Git blob"
 	@echo "  make demo          Run the complete deterministic demo"
 	@echo "  make package-check Build and inspect temporary package archives"
-	@echo "  make check         Run tests, scans, demo, and package validation"
+	@echo "  make browser-check Exercise the site in headless Chrome or Chromium"
+	@echo "  make check         Run tests, scans, demo, package, and browser checks"
 	@echo "  make site          Serve the static site at localhost:8000"
 
 check-python:
-	@test -n "$(PYTHON)" || { \
-		echo "Python 3.11 or newer is required." >&2; \
+	@$(PYTHON) -c 'import sys; raise SystemExit(sys.version_info < (3, 11))' \
+		>/dev/null 2>&1 || { \
+		echo "Run 'uv sync --locked' with Python 3.11 or newer." >&2; \
 		exit 1; \
 	}
 
@@ -48,7 +44,10 @@ demo: check-python
 package-check: check-python
 	$(PYTHON) tools/package_check.py
 
-check: test scan demo package-check
+browser-check: check-python
+	$(PYTHON) tools/browser_check.py
+
+check: test scan demo package-check browser-check
 
 site: check-python
 	$(PYTHON) -m http.server 8000 --directory site

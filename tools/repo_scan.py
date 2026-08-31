@@ -128,10 +128,12 @@ REQUIRED_FILES = {
     "src/aidlc_v2_engine/data/scope-grid.json",
     "src/aidlc_v2_engine/data/stage-catalog.json",
     "tools/demo_check.py",
+    "tools/browser_check.py",
     "tools/history_scan.py",
     "tools/package_check.py",
     "tools/release_check.py",
     "tools/repo_scan.py",
+    "uv.lock",
 }
 
 EXPECTED_PROJECT_URLS = {
@@ -632,6 +634,7 @@ def scan_packaging(root: Path = ROOT) -> list[Finding]:
             "*.whl",
             "*.tar.gz",
             "demo-data/",
+            "!uv.lock",
             "!requirements-build.lock",
             "!requirements.lock",
         ):

@@ -12,10 +12,10 @@ PyPI or another package index.
 3. Confirm `CHANGELOG.md` describes the release and its limitations.
 4. Obtain the governance and independent security reviews required by
    [GOVERNANCE.md](../GOVERNANCE.md).
-5. Run `make check`, `make coverage`, and `make history-scan` from a clean
-   checkout.
-6. Confirm CI and release workflows install `requirements-build.lock` with
-   pip hash enforcement.
+5. Run `uv sync --locked`, `make check`, `make coverage`, and
+   `make history-scan` from a clean checkout.
+6. Confirm CI, Pages, and release workflows use the committed `uv.lock` with
+   `uv sync --locked` and `uv run --locked`.
 
 ## Create the tag
 
@@ -44,9 +44,9 @@ history, then:
 
 1. verifies that the annotated tag, package version, and checked-out commit
    agree;
-2. installs the exact hash-locked build and coverage toolchain;
+2. installs the exact `uv.lock` development environment;
 3. runs tests, repository scans, coverage, the synthetic demo, package
-   inspection, and reachable-history scanning;
+   inspection, real-browser site verification, and reachable-history scanning;
 4. builds one source archive and one universal wheel;
 5. verifies the exact archive names and records SHA-256 digests; and
 6. uploads the archives as a retained GitHub Actions artifact.

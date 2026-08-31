@@ -55,8 +55,10 @@ REQUIRED_SOURCE_SUFFIXES = {
     "/site/architecture.js",
     "/site/index.html",
     "/tests/test_lifecycle.py",
+    "/tools/browser_check.py",
     "/tools/history_scan.py",
     "/tools/release_check.py",
+    "/uv.lock",
 }
 REQUIRED_METADATA_LINES = {
     "License-Expression: Apache-2.0",

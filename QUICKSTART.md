@@ -5,14 +5,14 @@
 AI-DLC v2 Engine requires Python 3.11+ and a POSIX host.
 
 ```console
-uv tool install .
-aidlc-v2 --help
+uv sync --locked
+uv run --locked aidlc-v2 --help
 ```
 
 ## Run the complete synthetic demo
 
 ```console
-aidlc-v2 --store .tmp/quickstart-demo demo
+uv run --locked aidlc-v2 --store .tmp/quickstart-demo demo
 ```
 
 Expected summary:
@@ -28,18 +28,18 @@ Expected summary:
 Inspect the result:
 
 ```console
-aidlc-v2 --store .tmp/quickstart-demo status
-aidlc-v2 --store .tmp/quickstart-demo outcomes
-aidlc-v2 --store .tmp/quickstart-demo verify-audit
-aidlc-v2 --store .tmp/quickstart-demo events
+uv run --locked aidlc-v2 --store .tmp/quickstart-demo status
+uv run --locked aidlc-v2 --store .tmp/quickstart-demo outcomes
+uv run --locked aidlc-v2 --store .tmp/quickstart-demo verify-audit
+uv run --locked aidlc-v2 --store .tmp/quickstart-demo events
 ```
 
 ## Inspect and route the methodology
 
 ```console
-aidlc-v2 catalog
+uv run --locked aidlc-v2 catalog
 
-aidlc-v2 detect-scope \
+uv run --locked aidlc-v2 detect-scope \
   --description "Patch a CVE vulnerability in the parser"
 ```
 
@@ -51,7 +51,7 @@ the current `classic` default.
 ## Initialize a manual workflow
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   --id-seed manual-example \
   --fixed-time 2026-08-30T09:00:00Z \
@@ -74,7 +74,7 @@ Query `status` and read the current stage’s declared outputs from `catalog`.
 For `reverse-engineering`, register each declared output:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   add-artifact \
   --actor-id aidlc-developer-agent \
@@ -88,7 +88,7 @@ aidlc-v2 \
 Repeat for the remaining declared outputs, then open the gate:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   request-approval \
   --actor-id aidlc-developer-agent \
@@ -99,7 +99,7 @@ aidlc-v2 \
 Copy the returned gate identifier and approve it with a different human:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   approve-stage \
   --actor-id human_owner \
@@ -112,7 +112,7 @@ Stages that declare a reviewer require a READY verdict or exhaustion of the
 bounded reviewer loop before the human gate can open:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   record-review \
   --actor-id aidlc-product-lead-agent \
@@ -127,7 +127,7 @@ Create Units before Construction when the selected scope includes
 `units-generation`:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   add-unit \
   --actor-id aidlc-developer-agent \
@@ -141,7 +141,7 @@ Unit, then open one stage-level gate. After registering the current Unit’s
 outputs and reviewer evidence, settle that Unit:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   complete-unit-stage \
   --actor-id aidlc-developer-agent \
@@ -152,7 +152,7 @@ Repeat for every Unit, then use `request-approval`. After the first
 Construction stage gate, a human selects the one-time ladder mode:
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/manual \
   set-autonomy \
   --actor-id human_owner \
@@ -167,7 +167,7 @@ a human chooses `retry`, `skip`, or `abort`.
 ## Observe a hard denial
 
 ```console
-aidlc-v2 \
+uv run --locked aidlc-v2 \
   --store .tmp/quickstart-demo \
   guard-operation \
   --actor-id agent_builder \
@@ -181,10 +181,12 @@ release authority for an agent.
 ## Run repository checks
 
 ```console
+uv sync --locked
 make test
 make coverage
 make scan
 make history-scan
 make demo
 make package-check
+make browser-check
 ```

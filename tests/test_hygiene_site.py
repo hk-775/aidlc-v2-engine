@@ -183,6 +183,19 @@ class RepositoryHygieneTests(WorkspaceTestCase):
 
         build_lock = (ROOT / "requirements-build.lock").read_text(encoding="utf-8")
         self.assertGreaterEqual(build_lock.count("--hash=sha256:"), 12)
+        uv_lock = tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))
+        self.assertEqual(uv_lock["version"], 1)
+        self.assertEqual(uv_lock["requires-python"], ">=3.11")
+        locked_names = {package["name"] for package in uv_lock["package"]}
+        self.assertTrue(
+            {
+                "aidlc-v2-engine",
+                "build",
+                "coverage",
+                "setuptools",
+                "wheel",
+            }.issubset(locked_names)
+        )
         pyproject = tomllib.loads(
             (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         )
@@ -195,14 +208,24 @@ class RepositoryHygieneTests(WorkspaceTestCase):
             pyproject["tool"]["setuptools"]["package-data"]["aidlc_v2_engine"],
             ["data/*.json"],
         )
+        self.assertEqual(
+            pyproject["dependency-groups"]["dev"],
+            [
+                "build==1.3.0",
+                "coverage==7.13.4",
+                "setuptools==84.0.0",
+                "wheel==0.48.0",
+            ],
+        )
 
     def test_uv_is_the_primary_installation_path(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         quickstart = (ROOT / "QUICKSTART.md").read_text(encoding="utf-8")
         contributing = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
-        self.assertIn("uv tool install .", readme)
-        self.assertIn("uv tool install .", quickstart)
-        self.assertIn("uv pip install --require-hashes", contributing)
+        for text in (readme, quickstart, contributing):
+            self.assertIn("uv sync --locked", text)
+            self.assertIn("uv run --locked", text)
+        self.assertNotIn("uv pip install", contributing)
 
     def test_publication_inventory_covers_v2_customer_artifacts(self) -> None:
         inventory = (ROOT / "docs" / "PUBLICATION_ARTIFACTS.md").read_text(
@@ -234,6 +257,22 @@ class RepositoryHygieneTests(WorkspaceTestCase):
         self.assertIn("ref: refs/heads/main", jobs_block)
         self.assertIn("pages: write", jobs_block)
         self.assertIn("id-token: write", jobs_block)
+        self.assertIn("uv sync --locked", jobs_block)
+        self.assertIn("tools/browser_check.py", jobs_block)
+
+    def test_browser_check_covers_pages_base_interactions_and_network(self) -> None:
+        script = (ROOT / "tools" / "browser_check.py").read_text(encoding="utf-8")
+        for marker in (
+            'DEFAULT_BASE_PATH = "/aidlc-v2-engine/"',
+            '"Network.requestWillBeSent"',
+            '"Network.webSocketCreated"',
+            "assert_mobile_layout",
+            'session.click("#next-step")',
+            'session.click(\'[data-scenario="governance"]\')',
+            "--base-url",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, script)
 
 
 class StaticSiteTests(WorkspaceTestCase):

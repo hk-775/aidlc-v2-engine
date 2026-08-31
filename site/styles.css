@@ -301,6 +301,10 @@ figure {
   margin: 2rem 0 0;
 }
 
+.architecture-actions {
+  margin-top: 1.5rem;
+}
+
 .architecture {
   display: block;
   width: 100%;
@@ -537,7 +541,7 @@ figcaption {
 }
 
 .download-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
 .download-grid a {

@@ -71,6 +71,9 @@ is not production ready.
 - Architecture: `docs/ARCHITECTURE.md`
 - Logo and icon: `site/assets/`
 - Editable diagram: `site/assets/architecture.drawio`
+- Target AWS services diagram:
+  `site/assets/aws-services-architecture.drawio` and
+  `site/assets/aws-services-architecture.png`
 - Publication inventory: `docs/PUBLICATION_ARTIFACTS.md`
 
 ## Pre-publication checks

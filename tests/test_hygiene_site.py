@@ -236,6 +236,8 @@ class RepositoryHygieneTests(WorkspaceTestCase):
             "site/architecture.html",
             "site/assets/architecture.drawio",
             "site/assets/architecture.png",
+            "site/assets/aws-services-architecture.drawio",
+            "site/assets/aws-services-architecture.png",
             "docs/V2_REQUIREMENTS.md",
             "docs/CLEAN_ROOM_PROVENANCE.md",
             "docs/ARCHITECTURE.md",
@@ -427,6 +429,8 @@ class StaticSiteTests(WorkspaceTestCase):
             "assets/architecture.png",
             "assets/architecture.svg",
             "assets/architecture.dot",
+            "assets/aws-services-architecture.drawio",
+            "assets/aws-services-architecture.png",
         ):
             self.assertIn(path, self.architecture_text)
         script = (ROOT / "site" / "architecture.js").read_text(encoding="utf-8")
@@ -485,6 +489,31 @@ class StaticSiteTests(WorkspaceTestCase):
         self.assertEqual(int.from_bytes(png[20:24], "big"), 900)
         self.assertIn("site/assets/architecture.png", readme)
         self.assertIn("site/assets/architecture.drawio", readme)
+
+        aws_drawio_root = ET.parse(
+            ROOT / "site" / "assets" / "aws-services-architecture.drawio"
+        ).getroot()
+        aws_drawio_values = " ".join(
+            element.attrib.get("value", "") for element in aws_drawio_root.iter()
+        )
+        aws_png = (
+            ROOT / "site" / "assets" / "aws-services-architecture.png"
+        ).read_bytes()
+        self.assertEqual(aws_drawio_root.tag, "mxfile")
+        for marker in (
+            "Target AWS Services Architecture",
+            "Amazon Cognito",
+            "Amazon ECS on AWS Fargate",
+            "Amazon DynamoDB",
+            "not implemented or deployed",
+        ):
+            self.assertIn(marker, aws_drawio_values)
+        self.assertEqual(aws_png[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual(aws_png[12:16], b"IHDR")
+        self.assertGreaterEqual(int.from_bytes(aws_png[16:20], "big"), 1800)
+        self.assertGreaterEqual(int.from_bytes(aws_png[20:24], "big"), 1000)
+        self.assertIn("site/assets/aws-services-architecture.png", readme)
+        self.assertIn("site/assets/aws-services-architecture.drawio", readme)
 
     def test_static_demo_matches_the_executable_bugfix_demo(self) -> None:
         script = (ROOT / "site" / "app.js").read_text(encoding="utf-8")

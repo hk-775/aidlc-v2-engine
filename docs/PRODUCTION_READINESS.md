@@ -49,6 +49,12 @@ authorize or operate production delivery.
 
 ## Maturation sequence
 
+The
+[target AWS services reference architecture](ARCHITECTURE.md#target-aws-services-reference-architecture)
+maps these gaps to one possible deployment shape. It is planning material only:
+the repository contains no AWS IaC, remote service implementation, or deployed
+resources.
+
 ### Evaluation hardening
 
 - property and fuzz tests for state/navigation;

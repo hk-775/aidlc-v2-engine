@@ -73,6 +73,7 @@
             >
               Download draw.io source
             </a>
+            <a class="text-link" href="#aws-target">AWS target architecture</a>
             <a
               class="text-link"
               href="https://github.com/hk-775/aidlc-v2-engine/blob/main/docs/ARCHITECTURE.md"
@@ -100,6 +101,49 @@
             production software.
           </figcaption>
         </figure>
+      </section>
+
+      <section id="aws-target" class="section section-tint" aria-labelledby="aws-target-heading">
+        <div class="shell">
+          <p class="eyebrow">Target reference architecture</p>
+          <h2 id="aws-target-heading">A possible AWS service boundary—not a deployed system</h2>
+          <p class="section-copy">
+            This separate view maps the documented production gaps to
+            authenticated ingress, a transactional control service, sandboxed
+            execution, retained evidence, signing, and observability. Every AWS
+            component is planned or optional; version 0.1.0 still has no AWS
+            infrastructure as code or remote service.
+          </p>
+          <figure>
+            <img
+              class="architecture"
+              src="assets/aws-services-architecture.png"
+              width="1864"
+              height="1131"
+              alt="Target AWS services reference architecture for AI-DLC v2 Engine showing Cognito and API Gateway, ECS Fargate control and worker services, SQS, DynamoDB, S3 Object Lock, KMS, Secrets Manager, observability, delivery, and optional Bedrock integration"
+            >
+            <figcaption>
+              Human-only authority remains in the control service. Sandboxed
+              workers and optional model integrations can return evidence but
+              cannot approve, merge, deploy, release, or operate production.
+            </figcaption>
+          </figure>
+          <div class="hero-actions architecture-actions">
+            <a
+              class="button secondary"
+              href="assets/aws-services-architecture.drawio"
+              download
+            >
+              Download AWS draw.io source
+            </a>
+            <a
+              class="text-link"
+              href="https://github.com/hk-775/aidlc-v2-engine/blob/main/docs/ARCHITECTURE.md#target-aws-services-reference-architecture"
+            >
+              Read the rationale
+            </a>
+          </div>
+        </div>
       </section>
 
       <section id="interactive" class="section section-tint">
@@ -265,6 +309,14 @@
           <a href="assets/architecture.dot" download>
             <strong>Graphviz source</strong>
             <span>Compact logical component map</span>
+          </a>
+          <a href="assets/aws-services-architecture.drawio" download>
+            <strong>AWS draw.io source</strong>
+            <span>Editable target deployment reference</span>
+          </a>
+          <a href="assets/aws-services-architecture.png" download>
+            <strong>AWS PNG</strong>
+            <span>Rendered target services architecture</span>
           </a>
         </div>
       </section>

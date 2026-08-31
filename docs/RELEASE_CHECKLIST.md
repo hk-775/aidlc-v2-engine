@@ -63,7 +63,10 @@ AI-DLC v2 Engine production ready.
 - [ ] Repository URLs, owners, and reporting contacts are configured.
 - [ ] Logo and icon render at intended sizes.
 - [ ] Landing page and architecture explorer match the current implementation.
-- [ ] Architecture downloads open from the published Pages artifact.
+- [ ] Local and target AWS architecture downloads open from the published
+      Pages artifact.
+- [ ] The AWS services diagram remains labeled target/reference and does not
+      imply deployed infrastructure.
 - [ ] Launch copy avoids unsupported claims.
 - [ ] Pages deployment is manually started from `main`.
 - [ ] The `github-pages` environment has required reviewers before launch.
